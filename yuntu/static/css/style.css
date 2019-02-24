@@ -1,0 +1,24 @@
+html, 
+body{
+    height: 100%;
+    background-color: #00CCFF;
+}
+
+h1{
+    font-style: italic;
+    color: white;
+}
+
+#icon{
+    font-size: 1.5rem;
+    color: white;
+}
+
+#img{
+    max-height: 100%;
+    max-width: 100%;
+}
+
+.not_found{
+    font-size: 300px;
+}

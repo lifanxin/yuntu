@@ -19,10 +19,13 @@
   <div class="h-75 row align-items-top justify-content-center">
     {% if name == 'code_503' %}
       {% set url = url_for('static', filename='img/nothing.png') %}
+      <img id="img" class="h-auto w-auto" src=" {{ url }} ">
     {% else %}
-      {% set url = url_for('test', name=name) %}
+      <!--show image by path-->
+      <!-- {% set url = url_for('test', name=name) %} -->
+      <!--show image by base64-->
+      <img id="img" class="h-auto w-auto" src="data:image/png;base64,{{name}}">
     {% endif %}
-    <img id="img" class="h-auto w-auto" src=" {{ url }} ">
   </div>
 </div>
 {% endblock %}

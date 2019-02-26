@@ -53,6 +53,9 @@ def start(input):
 
     crawl = crawler.Crawler(k_list)
     text = crawl.working()
+    # count time
+    crawl_time = time.time()
+    print('crawl_time: {}'.format(crawl_time - bt))
 
     scissors = Scissors()
     keynums = 500
@@ -62,14 +65,18 @@ def start(input):
         return
 
     cloud = Wcloud('girl.jpeg', 'SourceHanSerif/SourceHanSerifK-Light.otf')
-    name = d_words[0][0]
+    # name = d_words[0][0]
+    # status = cloud.save_it(name)
     cloud.make_it(d_words)
-    status = cloud.save_it(name)
+    b64_str = cloud.img_to_b64()
+    # count time
+    cloud_time = time.time()
+    print('cloud_time: {}'.format(cloud_time - crawl_time))
 
     et = time.time()
-    print('use time: {}'.format(et - bt))
+    print('all time: {}'.format(et - bt))
 
-    return status, name
+    return b64_str
 
 
 # test

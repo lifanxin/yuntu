@@ -2,9 +2,10 @@
 """Make wordcloud!"""
 
 from os import path
+import base64
+import io
 
 from wordcloud import WordCloud, ImageColorGenerator
-
 import matplotlib.pyplot as plt
 from scipy.misc import imread
 
@@ -87,7 +88,16 @@ class Wcloud:
         # self.wc.recolor(color_func=self.image_colors_byImg)
         filename = '{}.png'.format(imname)
         self.wc.to_file(path.join(self.path, 'data', filename))
-        return 'ok'
+        return imname
+
+    # image to base64
+    def img_to_b64(self):
+        img = self.wc.to_image()
+        buf = io.BytesIO()
+        img.save(buf, format='png')
+        b_data = buf.getvalue()
+        b64_str = base64.b64encode(b_data).decode()
+        return b64_str
 
 
 # test
@@ -98,11 +108,28 @@ if __name__ == '__main__':
 
     import time
     bt = time.time()
-    with open('nothing.txt', 'r') as f:
-        txt = f.read()
-    print(len(txt))
+    # with open('data/test.png', 'rb') as f:
+    #     txt = f.read()
+    # img_code = base64.b64encode(txt)
+    # print(len(img_code))
+    # with open('code.txt', 'wb') as f:
+    #     f.write(img_code)
     w = Wcloud('girl.jpeg', 'SourceHanSerif/SourceHanSerifK-Light.otf')
-    w.make_it_by_text(txt)
-    w.save_it('nothing')
+    w.make_it_by_text(list)
+    t = w.img_to_b64()
+    print(t)
+    print(type(t))
+    buf = io.BytesIO()
+    t.save(buf, format='png')
+    b_data = buf.getvalue()
+    base64_str = base64.b64encode(b_data)
+    print(len(base64_str))
+    # str = base64.b64encode(t)
+    # print(len(str))
+    with open('code.txt', 'wb') as f:
+        f.write(base64_str)
+    # print(len(t[1]))
+    # print(t[1])
+    # w.save_it('nothing')
     et = time.time()
     print('use time: {}'.format(et - bt))

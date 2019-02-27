@@ -1,6 +1,6 @@
 # my-file
-data/
-!/data/test.png
+data/*
+!data/test.png
 
 # vscode
 .vscode

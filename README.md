@@ -24,7 +24,7 @@ create beautiful wordcloud image online
 
 ### 获取数据
 &emsp;&emsp;***检索数据库***  
-&emsp;&emsp;查询之前已经准备的文本信息数据库（主要爬取对象为网络公司，信息来源为各大新闻媒体平台，包括头条、新浪、凤凰资讯、人民网、新华网等，存储对象是新闻文本信息）。  
+&emsp;&emsp;查询之前已经准备的文本信息数据库（主要爬取对象为[网络公司](yuntu/auto_spiders/company/company.txt)，信息来源为各大新闻媒体平台，包括头条、新浪、凤凰资讯、人民网、新华网等，存储对象是新闻文本信息）。  
 &emsp;&emsp;***即时网络爬取***  
 &emsp;&emsp;如果数据库中不包含已有信息，那么采用在线网络爬取的方式，主要爬取对象为百科、Wiki等，获取文本信息。
 
@@ -51,16 +51,16 @@ create beautiful wordcloud image online
 
 ## 项目展示
 ### 首页
-![首页](index.png)
+![首页](img/index.png)
 
 ### 搜索公司（单个）
-![单个公司搜索](test.png)
+![单个公司搜索](img/test.png)
 
 ### 搜索公司（多个）
-![多个公司搜索](test_union.png)
+![多个公司搜索](img/test_union.png)
 
 ### 搜索句子
-![搜索句子](long_test.png)
+![搜索句子](img/long_test.png)
 
 ## 待处理问题
 ### 网站响应速度

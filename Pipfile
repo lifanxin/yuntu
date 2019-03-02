@@ -18,6 +18,7 @@ wordcloud = "*"
 matplotlib = "*"
 lxml = "*"
 scipy = "*"
+mysqlclient = "*"
 
 [requires]
 python_version = "3.6"

@@ -12,7 +12,8 @@ import jieba
 
 class NewsSpider:
     """Crawl news spider."""
-
+    # https://www.toutiao.com/api/search/content/?aid=24&app_name=web_search&offset=0&format=json&keyword=百度&autoload=true&count=20&en_qc=1&cur_tab=1&from=search_tab&pd=synthesis
+    # https://www.toutiao.com/api/search/content/?aid=24&app_name=web_search&offset=0&format=json&keyword=上海冰鉴&autoload=true&count=20&en_qc=1&cur_tab=1&from=search_tab&pd=synthesis
     toutiao_news = 'https://www.toutiao.com/api/search/content/?'
     headers = {
         'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) \

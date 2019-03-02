@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-"""Crawl info from baike."""
+"""Crawl info from wiki."""
 
 import re
 
@@ -7,7 +7,7 @@ import requests
 from bs4 import BeautifulSoup
 
 
-class Baidu:
+class Wiki:
 
     def __init__(self):
         self.headers = {
@@ -15,7 +15,7 @@ class Baidu:
                     AppleWebKit/537.36 (KHTML, like Gecko) \
                     Chrome/71.0.3578.98 Safari/537.36',
         }
-        self.link = 'https://baike.baidu.com/item'
+        self.link = 'https://en.wikipedia.org/wiki'
         self.param_dicts = {}
 
     def get_response(self, keyword):
@@ -35,8 +35,8 @@ class Baidu:
     def parse_response(self, response):
         try:
             soup = BeautifulSoup(response.text, 'lxml')
-            main_content = soup.find('div', class_='main-content')
-            text = main_content.get_text(' ', strip=True)
+            body_content = soup.find('div', id='bodyContent')
+            text = body_content.get_text(' ', strip=True)
             if text:
                 clear_txt = re.findall(r"[\u4E00-\u9FA5A-Za-z ]", text)
                 txt = ''.join(clear_txt)
@@ -47,13 +47,21 @@ class Baidu:
 
 # test
 if __name__ == '__main__':
-    b = Baidu()
-    res = b.get_response('马云')
-    text = b.parse_response(res)
-    print(len(text))
+    import time
+    # with ProcessPoolExecutor(crawler.maxprocesses) as executor:
+    #     pr_fs = executor.map([crawler.do_ch(), crawler.do_eg()])
 
-    import os
-    d = os.path.dirname(os.path.abspath(__file__))
-    t_path = os.path.join(d, 'test.txt')
-    with open(t_path, 'w') as f:
-        f.write(text)
+    bt = time.time()
+    w = Wiki()
+    res = w.get_response('English')
+    mark = time.time()
+    print(mark - bt)
+    text = w.parse_response(res)
+    print(len(text))
+    print(time.time() - mark)
+
+    # import os
+    # d = os.path.dirname(os.path.abspath(__file__))
+    # t_path = os.path.join(d, 'test.txt')
+    # with open(t_path, 'w') as f:
+    #     f.write(text)

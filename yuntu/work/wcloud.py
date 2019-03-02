@@ -38,7 +38,7 @@ class Wcloud:
             max_font_size=66,
             min_font_size=8,
             random_state=0,
-            # width=1000,
+            # width=2000,
             # height=860,
             margin=2,
             # contour_width=0,
@@ -58,11 +58,23 @@ class Wcloud:
             repeat=True,
         )
 
-    def make_it(self, text):
-        self.wc.generate_from_frequencies(dict(text))
+    def make_it(self, ch_list):
+        if not ch_list:
+            return
+        self.wc.generate_from_frequencies(dict(ch_list))
+        return 'ok'
 
-    def make_it_by_text(self, text):
-        self.wc.generate_from_text(text)
+    # def make_it(self, ch_list, eg_text):
+    #     eg_dict = self.wc.process_text(eg_text)
+    #     print(eg_dict)
+    #     all_dict = {**dict(ch_list), **eg_dict}
+    #     if not all_dict:
+    #         return
+    #     self.wc.generate_from_frequencies(all_dict)
+    #     return 'ok'
+
+    def process_text(self, text):
+        self.wc.process_text(text)
         # self.wc.to_html()
 
     def show_it(self):

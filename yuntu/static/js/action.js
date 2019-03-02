@@ -9,7 +9,7 @@ $(document).ready(function(){
         if (arr == null) 
             keyword = ''
         else
-            keyword = arr.join("").slice(0, 255)
+            keyword = arr.join("").slice(0, 225)
 
         window.location.href="/show?keyword=" + keyword;
     }

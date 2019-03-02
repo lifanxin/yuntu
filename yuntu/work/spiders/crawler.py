@@ -4,24 +4,28 @@
 @python: 3.6.7
 """
 
-import re
 from concurrent.futures import ProcessPoolExecutor, ThreadPoolExecutor
+from multiprocessing import Process, Manager
 
 from work.spiders.baidu import Baidu
+# from work.spiders.wiki import Wiki
 
 
 class Crawler:
 
-    def __init__(self, keywords):
+    def __init__(self, spider, keywords):
         self.maxthreads = 8
         self.maxprocesses = 4
         self.keywords = keywords
-        self.length = len(keywords)
+        self.length = len(keywords) if keywords is not None else 0
         self.threads = self.maxthreads \
             if self.length > self.maxthreads else self.length
-        self.spider = Baidu()
+        self.spider = spider
 
-    def working(self):
+    def do_job(self, res):
+        if self.threads == 0:
+            return
+
         with ThreadPoolExecutor(self.threads) as executor:
             th_fs = executor.map(self.spider.get_response,
                                  [keyword for keyword in self.keywords])
@@ -30,21 +34,49 @@ class Crawler:
             pr_fs = executor.map(self.spider.parse_response,
                                  [response for response in th_fs
                                   if response])
+        str = ''
+        for txt in pr_fs:
+            if txt:
+                str += txt
+        if not str.strip():
+            str = ' '.join(self.keywords)
+        res.append(str)
 
-        txt = ''
-        for text in pr_fs:
-            if text:
-                clear_txt = re.findall(r"[\u4E00-\u9FA5A-Za-z ]", text)
-                txt += ''.join(clear_txt)
-        print('got text length: {}'.format(len(txt)))
-        if not txt:
-            return ''.join(self.keywords)
-        return txt
+
+# do multi-work
+def working(ch_words,  eg_words):
+    ch_crawler = Crawler(Baidu(), ch_words)
+    # eg_crawler = Crawler(Wiki(), eg_words)
+    print(ch_crawler.threads)
+    # print(eg_crawler.threads)
+
+    m = Manager()
+    res = m.list()
+    ch_p = Process(target=ch_crawler.do_job, args=(res, ))
+    # eg_p = Process(target=eg_crawler.do_job, args=(res, ))
+    ch_p.start()
+    # eg_p.start()
+    ch_p.join()
+    # eg_p.join()
+
+    text = ' '.join(res)
+    print('got text length: {}'.format(len(text)))
+    return text
 
 
 # test
 if __name__ == '__main__':
-    test = ['斗鱼', '白鹭', '中国']
-    c = Crawler(test)
-    text = c.working()
-    print(len(text))
+    # from baidu import Baidu
+    # from wiki import Wiki
+
+    import time
+    bt = time.time()
+
+    eg = ['']
+    ch = ['中国']
+    text = working(ch, eg)
+    # print(text)
+    print(text[:-1000])
+
+    et = time.time()
+    print('time: {}'.format(et - bt))

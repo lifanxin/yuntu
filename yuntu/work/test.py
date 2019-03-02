@@ -1,5 +1,8 @@
-# -*- coding: utf-8 -*-
+test = {
+    'o': 1,
+    'p': 2
+}
 
-
-t = 1 or 2
-print(t)
+print(test.get('p'))
+print(test.get('po'))
+print(etst['po'])

@@ -7,6 +7,7 @@ import time
 from work.spiders import crawler
 from work.wcloud import Wcloud
 from work.scissors import Scissors
+from auto_spiders.db import sqldb
 
 
 def clear_input(input):
@@ -20,25 +21,60 @@ def clear_input(input):
     return str
 
 
-def judge_input(str):
+def handle_eg(str):
+    eg_str = re.findall(r"[A-Za-z ]", str)
+    if not eg_str:
+        return
+    words = ''.join(eg_str)
+
+    return list(words.split(' '))
+
+
+def handle_ch(str):
+    # number belong to ch_str
     keynums = 10
+    ch_str = re.findall(r"[\u4E00-\u9FA50-9 ]", str)
+    if not ch_str:
+        return
+    words = ''.join(ch_str)
 
     scissors = Scissors()
-    if len(str) > 10:
+    if len(words) > 10:
         # too long for search, go to get keywords
-        s_key = scissors.get_keywords(str, keynums, False)
+        s_key = scissors.get_keywords(words, keynums, False)
     else:
-        s_key = scissors.cut_words(str)
+        s_key = scissors.cut_words(words)
 
-    return s_key
-
-
-def clear_keys(keywords):
-    """Remove space in keywords."""
-    k_list = [keyword for keyword in keywords.split('/')
+    # Remove space in s_key
+    k_list = [keyword for keyword in s_key.split('/')
               if not keyword.isspace()]
 
     return k_list
+
+
+def do_in_db(ch_words):
+    db = sqldb.DB()
+    for word in ch_words:
+        keywords = db.select_info('company', word)
+        if keywords:
+            return dict(eval(keywords[0]))
+    return
+
+
+def do_in_crawler(ch_words):
+    scissors = Scissors()
+    keynums = 150
+
+    start = time.time()
+    text = crawler.working(ch_words)
+    # count time
+    end = time.time()
+    print('crawl_time: {}'.format(end - start))
+
+    ch_text = ''.join(re.findall(r"[\u4E00-\u9FA50-9 ]", text))
+    keywords = scissors.get_keywords(ch_text, keynums, True)
+
+    return keywords
 
 
 def start(input):
@@ -48,30 +84,29 @@ def start(input):
     if not str:
         return
 
-    keywords = judge_input(str)
-    k_list = clear_keys(keywords)
+    ch_words = handle_ch(str)
+    # eg_words = handle_eg(str)
+    print(ch_words)
+    db_start = time.time()
+    keywords = do_in_db(ch_words)
+    db_end = time.time()
+    print('db time: {}'.format(db_end - db_start))
 
-    crawl = crawler.Crawler(k_list)
-    text = crawl.working()
-    # count time
-    crawl_time = time.time()
-    print('crawl_time: {}'.format(crawl_time - bt))
+    if not keywords:
+        keywords = do_in_crawler(ch_words)
 
-    scissors = Scissors()
-    keynums = 500
-    d_words = scissors.get_keywords(text, keynums, True)
-    # print(d_words)
-    if not d_words:
-        return
-
+    start = time.time()
+    # eg_text = ''.join(re.findall(r"[A-Za-z ]", text))
     cloud = Wcloud('girl.jpeg', 'SourceHanSerif/SourceHanSerifK-Light.otf')
-    # name = d_words[0][0]
-    # status = cloud.save_it(name)
-    cloud.make_it(d_words)
+    # print(ch_list)
+    # print(eg_text[:100])
+    no_none = cloud.make_it(keywords)
+    if not no_none:
+        return
     b64_str = cloud.img_to_b64()
     # count time
     cloud_time = time.time()
-    print('cloud_time: {}'.format(cloud_time - crawl_time))
+    print('cloud_time: {}'.format(cloud_time - start))
 
     et = time.time()
     print('all time: {}'.format(et - bt))
@@ -81,6 +116,13 @@ def start(input):
 
 # test
 if __name__ == '__main__':
-    test1 = '  我  的 '
+    # from spiders import crawler
+    # from wcloud import Wcloud
+    # from scissors import Scissors
+
+    test1 = '我我我们英雄联盟的班德尔城 德玛西亚之力'
     test2 = "英雄联盟的班德尔城 德玛西亚之力"
-    print(judge_input(test1))
+    s = Scissors()
+    t = s.get_keywords(test1, 50, False)
+    print(t)
+    # print(judge_input(test1))

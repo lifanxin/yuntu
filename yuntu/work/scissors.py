@@ -38,7 +38,6 @@ class Scissors:
         jieba.analyse.set_stop_words(self.SW_PATH)
         keywords = jieba.analyse.extract_tags(sentence, topK=maxwords,
                                               withWeight=weight)
-
         if weight:
             return keywords
         return '/'.join(keywords)

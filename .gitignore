@@ -1,6 +1,5 @@
 # my-file
-data/*
-!data/test.png
+data
 db
 test.py
 

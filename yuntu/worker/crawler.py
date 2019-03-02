@@ -45,6 +45,8 @@ def working(search_keywords):
     spider = Baidu()
 
     text = crawler.do_job(spider)
+    if not text:
+        text = ''.join(search_keywords)
     print('got text length: {}'.format(len(text)))
     return text
 

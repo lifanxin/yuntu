@@ -42,7 +42,7 @@ class Leader:
 
     def handle_ch(self, string):
         # number belong to ch_str
-        single_str = re.findall(r"[\u4E00-\u9FA50-9 ]", string)
+        single_str = re.findall(r"[\u4E00-\u9FA5A-Za-z0-9 ]", string)
         if not single_str:
             return
         ch_str = ''.join(single_str)
@@ -97,6 +97,8 @@ class Leader:
         if not clear_user_input:
             return
         search_keywords = leader.handle_ch(clear_user_input)
+        if not search_keywords:
+            return
         print('search keywords: {}'.format(search_keywords))
 
         db_start = time.time()

@@ -2,6 +2,7 @@
 data/*
 !data/test.png
 db
+test.py
 
 # vscode
 .vscode

@@ -1,6 +1,7 @@
 # my-file
 data/*
 !data/test.png
+db
 
 # vscode
 .vscode

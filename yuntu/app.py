@@ -5,7 +5,7 @@ from os import path
 from flask_bootstrap import Bootstrap
 from flask import Flask, render_template, request, Response
 
-from work import worker
+from worker.leader import Leader
 
 
 app = Flask(__name__)
@@ -22,19 +22,16 @@ def index():
 @app.route('/show', methods=['GET'])
 def show():
     print(request)
-    keyword = request.args.get('keyword')
-    print(keyword)
-    str = worker.start(keyword)
-    if not str:
+    user_input = request.args.get('keyword')
+
+    leader = Leader()
+    b64_str = leader.start(user_input)
+    if not b64_str:
         # fail to catch info
-        name = 'code_503'
+        code = 'code_503'
     else:
-        name = str
-        # test
-        # img_path = path.join(CURRENT_PATH, 'work/code.txt')
-        # with open(img_path, 'r') as f:
-        #     name = f.read()
-    return render_template('show.html', name=name)
+        code = b64_str
+    return render_template('show.html', name=code)
 
 
 # send image by path

@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-"""Make wordcloud!"""
+"""Maker, make word cloud in here."""
 
 from os import path
 import base64
@@ -10,7 +10,7 @@ import matplotlib.pyplot as plt
 from scipy.misc import imread
 
 
-class Wcloud:
+class Maker:
     """Generate wordcloud!"""
 
     def __init__(self, from_image_file, from_font_file):
@@ -33,10 +33,10 @@ class Wcloud:
         self.wc = WordCloud(
             font_path=self.font_path,
             background_color=None,
-            max_words=150,
+            max_words=500,
             mask=self.mask,
             max_font_size=66,
-            min_font_size=8,
+            min_font_size=32,
             random_state=0,
             # width=2000,
             # height=860,
@@ -58,11 +58,11 @@ class Wcloud:
             repeat=True,
         )
 
-    def make_it(self, ch_list):
-        if not ch_list:
+    def make_it(self, cloud_keywords):
+        if not cloud_keywords:
             return
-        self.wc.generate_from_frequencies(dict(ch_list))
-        return 'ok'
+        self.wc.generate_from_frequencies(dict(cloud_keywords))
+        return True
 
     # def make_it(self, ch_list, eg_text):
     #     eg_dict = self.wc.process_text(eg_text)
@@ -114,34 +114,35 @@ class Wcloud:
 
 # test
 if __name__ == '__main__':
-    test = "英雄联盟的班德尔城 德玛西亚之力"
-    import jieba
-    list = ' '.join(jieba.cut(test, cut_all=False))
+    pass
+    # test = "英雄联盟的班德尔城 德玛西亚之力"
+    # import jieba
+    # list = ' '.join(jieba.cut(test, cut_all=False))
 
-    import time
-    bt = time.time()
-    # with open('data/test.png', 'rb') as f:
-    #     txt = f.read()
-    # img_code = base64.b64encode(txt)
-    # print(len(img_code))
+    # import time
+    # bt = time.time()
+    # # with open('data/test.png', 'rb') as f:
+    # #     txt = f.read()
+    # # img_code = base64.b64encode(txt)
+    # # print(len(img_code))
+    # # with open('code.txt', 'wb') as f:
+    # #     f.write(img_code)
+    # w = Wcloud('girl.jpeg', 'SourceHanSerif/SourceHanSerifK-Light.otf')
+    # w.make_it_by_text(list)
+    # t = w.img_to_b64()
+    # print(t)
+    # print(type(t))
+    # buf = io.BytesIO()
+    # t.save(buf, format='png')
+    # b_data = buf.getvalue()
+    # base64_str = base64.b64encode(b_data)
+    # print(len(base64_str))
+    # # str = base64.b64encode(t)
+    # # print(len(str))
     # with open('code.txt', 'wb') as f:
-    #     f.write(img_code)
-    w = Wcloud('girl.jpeg', 'SourceHanSerif/SourceHanSerifK-Light.otf')
-    w.make_it_by_text(list)
-    t = w.img_to_b64()
-    print(t)
-    print(type(t))
-    buf = io.BytesIO()
-    t.save(buf, format='png')
-    b_data = buf.getvalue()
-    base64_str = base64.b64encode(b_data)
-    print(len(base64_str))
-    # str = base64.b64encode(t)
-    # print(len(str))
-    with open('code.txt', 'wb') as f:
-        f.write(base64_str)
-    # print(len(t[1]))
-    # print(t[1])
-    # w.save_it('nothing')
-    et = time.time()
-    print('use time: {}'.format(et - bt))
+    #     f.write(base64_str)
+    # # print(len(t[1]))
+    # # print(t[1])
+    # # w.save_it('nothing')
+    # et = time.time()
+    # print('use time: {}'.format(et - bt))

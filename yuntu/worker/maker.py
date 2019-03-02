@@ -78,6 +78,9 @@ class Maker:
         self.wc.process_text(text)
         # self.wc.to_html()
 
+    def generate_it(self, text):
+        self.wc.generate(text)
+
     def show_it(self):
         """Show wordcloud by default."""
         plt.imshow(self.wc)
@@ -115,35 +118,35 @@ class Maker:
 
 # test
 if __name__ == '__main__':
-    pass
-    # test = "英雄联盟的班德尔城 德玛西亚之力"
-    # import jieba
-    # list = ' '.join(jieba.cut(test, cut_all=False))
+    # pass
 
-    # import time
-    # bt = time.time()
-    # # with open('data/test.png', 'rb') as f:
-    # #     txt = f.read()
-    # # img_code = base64.b64encode(txt)
-    # # print(len(img_code))
-    # # with open('code.txt', 'wb') as f:
-    # #     f.write(img_code)
-    # w = Wcloud('girl.jpeg', 'SourceHanSerif/SourceHanSerifK-Light.otf')
+    import time
+    bt = time.time()
+    # with open('data/test.png', 'rb') as f:
+    #     txt = f.read()
+    # img_code = base64.b64encode(txt)
+    # print(len(img_code))
+    # with open('code.txt', 'wb') as f:
+    #     f.write(img_code)
+    m = Maker('girl.jpeg', 'SourceHanSerif/SourceHanSerifK-Light.otf')
+    not_found = [('404', 0.5), ('not found', 0.5)]
+    print(not_found)
+    m.make_it(not_found)
+    m.save_it(404)
     # w.make_it_by_text(list)
     # t = w.img_to_b64()
-    # print(t)
-    # print(type(t))
+
     # buf = io.BytesIO()
     # t.save(buf, format='png')
     # b_data = buf.getvalue()
     # base64_str = base64.b64encode(b_data)
     # print(len(base64_str))
-    # # str = base64.b64encode(t)
-    # # print(len(str))
+    # str = base64.b64encode(t)
+    # print(len(str))
     # with open('code.txt', 'wb') as f:
     #     f.write(base64_str)
-    # # print(len(t[1]))
-    # # print(t[1])
-    # # w.save_it('nothing')
-    # et = time.time()
-    # print('use time: {}'.format(et - bt))
+    # print(len(t[1]))
+    # print(t[1])
+    # w.save_it('nothing')
+    et = time.time()
+    print('use time: {}'.format(et - bt))

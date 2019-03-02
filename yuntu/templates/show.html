@@ -3,7 +3,7 @@
 {% block main %}
 <div class="h-100">
   <div id="top_search" class="h-25 container-fluid row justify-content-center">
-    <div class="input-group mt-4 h-25 w-25">
+    <div class="input-group col-sm-12 col-md-6 col-lg-4 col-xl-3 mt-4 h-25">
         {% set value =  request.args.get('keyword') %}
         {% if not value %}
           {% set value = '' %}
@@ -17,15 +17,17 @@
     </div>
   </div>
   <div class="h-75 row align-items-top justify-content-center">
-    {% if name == 'code_503' %}
+    <div class="h-100 col-auto">
+      {% if name == 'code_503' %}
       {% set url = url_for('static', filename='img/nothing.png') %}
-      <img id="img" class="h-auto w-auto" src=" {{ url }} ">
-    {% else %}
-      <!--show image by path-->
-      <!-- {% set url = url_for('test', name=name) %} -->
-      <!--show image by base64-->
-      <img id="img" class="h-auto w-auto" src="data:image/png;base64,{{name}}">
-    {% endif %}
+        <img id="img" class="h-auto w-auto" src=" {{ url }} ">
+      {% else %}
+        <!--show image by path-->
+        <!-- {% set url = url_for('test', name=name) %} -->
+        <!--show image by base64-->
+        <img id="img" class="h-auto w-auto" src="data:image/png;base64,{{name}}">
+      {% endif %}
+    </div>
   </div>
 </div>
 {% endblock %}

@@ -46,7 +46,7 @@ create beautiful wordcloud image online
 &emsp;&emsp;采用jinja2搭配bootstrap，可以更快速的处理一些简单的事件流程。  
 
 ### 后端  
-&emsp;&emsp;***flask***
+&emsp;&emsp;***flask***  
 &emsp;&emsp;利用python后端轻量级框架flask，快速构建后端程序，同时搭配jinja2模板实现简单的逻辑处理。
 
 ## 项目展示

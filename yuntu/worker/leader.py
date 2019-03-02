@@ -14,7 +14,7 @@ class Leader:
 
     def __init__(self):
         self.input_keynums = 10
-        self.make_keynums = 500
+        self.make_keynums = 200
         self.table_name = 'company'
         self.img = 'girl.jpeg'
         self.font = 'SourceHanSerif/SourceHanSerifK-Light.otf'
@@ -67,13 +67,15 @@ class Leader:
             keywords_list = []
             for keyword in search_keywords:
                 company_keywords = db.select_info(self.table_name, keyword)
-                if company_keywords[0]:
-                    # change str into list
-                    keywords_list.append(eval(company_keywords[0]))
+                if not company_keywords:
+                    continue
+                # change str into list
+                keywords_list.append(eval(company_keywords[0]))
 
             cloud_keywords = sum(keywords_list, [])
             return cloud_keywords
-        except Exception:
+        except Exception as e:
+            print('search from db error: {}'.format(e))
             return
         finally:
             db.close()

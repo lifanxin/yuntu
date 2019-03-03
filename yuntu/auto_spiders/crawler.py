@@ -45,7 +45,7 @@ def parse_words(text):
     jieba.enable_parallel(4)
 
     # catch keywords
-    keywords = jieba.analyse.extract_tags(text, topK=500, withWeight=True)
+    keywords = jieba.analyse.extract_tags(text, topK=200, withWeight=True)
     return keywords
 
 
@@ -60,13 +60,17 @@ def working():
         with open(company_file) as f:
             companies = f.readlines()
         for company in companies:
-            tasks = [e.submit(c.do_job, spider, company) for spider in spiders]
+            if r'# ' in company:
+                continue
+            company_name = company.strip()
+            tasks = [e.submit(c.do_job, spider, company_name)
+                     for spider in spiders]
 
             text = [future.result()
-                    for future in concurrent.futures.as_completed(tasks) 
+                    for future in concurrent.futures.as_completed(tasks)
                     if future.result()]
             big_text = ' '.join(text)
-            yield [company, parse_words(big_text)]
+            yield [company_name, parse_words(big_text)]
 
 
 # test

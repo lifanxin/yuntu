@@ -3,6 +3,7 @@
 
 import re
 import time
+import random
 
 from worker import crawler
 from worker.maker import Maker
@@ -16,9 +17,16 @@ class Leader:
         self.input_keynums = 10
         self.make_keynums = 200
         self.table_name = 'company'
-        self.img = 'girl.jpeg'
+        self.img_groups = ['bigfish2.jpeg', 'girl.jpeg',
+                           'bigfish3.jpeg', 'panda.jpg',
+                           'figure.jpg']
+        self.img = self.get_random_img()
         self.font = 'SourceHanSerif/SourceHanSerifK-Light.otf'
         self.scissors = Scissors()
+
+    def get_random_img(self):
+        choice = random.randint(0, 4)
+        return self.img_groups[choice]
 
     def clear_input(self, user_input):
         """Choose something we need."""
@@ -124,6 +132,7 @@ class Leader:
 
         et = time.time()
         print('all time: {}'.format(et - bt))
+        print('use img: {}'.format(self.img))
 
         return b64_str
 

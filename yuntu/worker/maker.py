@@ -36,7 +36,7 @@ class Maker:
             max_words=200,
             mask=self.mask,
             max_font_size=66,
-            min_font_size=16,
+            min_font_size=8,
             random_state=0,
             # width=2000,
             # height=860,
